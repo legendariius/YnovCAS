@@ -1,5 +1,5 @@
 from django.db import models
-from cardsAdmin.models import Deck
+from cardsAdmin.models import *
 
 
 class User(models.Model):
@@ -10,3 +10,5 @@ class User(models.Model):
     password = models.CharField(max_length=20)
     wallet = models.IntegerField(default=0)
     deckList = models.ManyToManyField(Deck, null=True)
+    charactersList = models.ManyToManyField(CharacterCard, null=True)
+    cardList = models.ManyToManyField(ActionCard, null=True)

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib import admin
 from user.models import User
 
+
 class Card(models.Model):
     name = models.CharField(max_length=40)
     imageSource = models.CharField(max_length=255)
@@ -45,12 +46,11 @@ class TypeCard(models.Model):
 class CharacterCard(Card):
     weakness = models.ForeignKey('Alcohol', on_delete=models.DO_NOTHING, related_name='weakness')
     strength = models.ForeignKey('Alcohol', on_delete=models.DO_NOTHING, related_name='strength')
-    maxAlcohol = models.FloatField()
 
 
 class CharacterCardDescriptors(admin.ModelAdmin):
-    list_display = ['name', 'weakness', 'strength', 'maxAlcohol', 'price']
-    list_filter = ['name', 'weakness', 'strength', 'maxAlcohol', 'price']
+    list_display = ['name', 'weakness', 'strength', 'price']
+    list_filter = ['name', 'weakness', 'strength', 'price']
     ordering = ['name']
 
     fieldsets = ((
@@ -59,7 +59,7 @@ class CharacterCardDescriptors(admin.ModelAdmin):
         ),
         (
             'Card effects',
-            {'fields': ['weakness', 'strength', 'maxAlcohol']}
+            {'fields': ['weakness', 'strength']}
         )
     )
 
@@ -71,18 +71,6 @@ class Alcohol(models.Model):
         return self.name
 
 
-class TypeStart(models.Model):
-    name = models.CharField(max_length=30)
-
-    def __str__(self):
-        return self.name
-
-class TypeDeck(models.Model):
-    name = models.CharField(max_length=30)
-
-    def __str__(self):
-        return self.name
-
 class Deck(models.Model):
     idUser = models.ForeignKey('User', on_delete=models.DO_NOTHING)
     name = models.CharField(max_length=30)
@@ -92,11 +80,20 @@ class Deck(models.Model):
     def __str__(self):
         return self.name
 
-class TypeKickOff(models.Model):
+
+class TypeStart(models.Model):
     name = models.CharField(max_length=30)
 
     def __str__(self):
         return self.name
+
+
+class TypeDeck(models.Model):
+    name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.name
+
 
 class TypeEnding(models.Model):
     name = models.CharField(max_length=30)
@@ -112,15 +109,12 @@ class EndDeckEffect(models.Model):
         return self.name
 
 
-class Parameters(models.Model):
-    deckLimit = models.IntegerField()
-    handSize = models.IntegerField()
-    cardsPerTurn = models.IntegerField()
-    cardsPerDraw = models.IntegerField()
-    turnTimer = models.IntegerField()
-    alcoholLimit = models.IntegerField()
-    typeStart = models.ForeignKey('TypeStart', on_delete=models.DO_NOTHING,)
-    typeDeck = models.ForeignKey('TypeDeck', on_delete=models.DO_NOTHING,)
-    typeKickOff = models.ForeignKey('TypeKickOff', on_delete=models.DO_NOTHING,)
-    endDeckEffect = models.ForeignKey('EndDeckEffect', on_delete=models.DO_NOTHING,)
-    typeEnding = models.ForeignKey('TypeEnding', on_delete=models.DO_NOTHING,)
+class Match(models.Model):
+    player1 = models.ForeignKey('User', on_delete=models.DO_NOTHING, related_name='player1')
+    score1 = models.IntegerField
+    alcoholLevel1 = models.FloatField
+    character1 = models.ForeignKey('CharacterCard', on_delete=models.DO_NOTHING, related_name='character1')
+    player2 = models.ForeignKey('User', on_delete=models.DO_NOTHING, related_name='player2')
+    score2 = models.IntegerField
+    alcoholLevel2 = models.FloatField
+    character2 = models.ForeignKey('CharacterCard', on_delete=models.DO_NOTHING, related_name='character2')
