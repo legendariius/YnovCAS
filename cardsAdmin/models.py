@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib import admin
-
+from user.models import User
 
 class Card(models.Model):
     name = models.CharField(max_length=40)
@@ -77,20 +77,26 @@ class TypeStart(models.Model):
     def __str__(self):
         return self.name
 
-
 class TypeDeck(models.Model):
     name = models.CharField(max_length=30)
 
     def __str__(self):
         return self.name
 
+class Deck(models.Model):
+    idUser = models.ForeignKey('User', on_delete=models.DO_NOTHING)
+    name = models.CharField(max_length=30)
+    cardList = models.ManyToManyField(ActionCard)
+    TypeDeck = models.ForeignKey('TypeDeck', on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return self.name
 
 class TypeKickOff(models.Model):
     name = models.CharField(max_length=30)
 
     def __str__(self):
         return self.name
-
 
 class TypeEnding(models.Model):
     name = models.CharField(max_length=30)

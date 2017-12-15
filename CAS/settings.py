@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'cardsAdmin',
     'UI',
     'game',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
