@@ -1,6 +1,7 @@
 from django.db import models
 from cardsAdmin.models import Deck
 
+
 class User(models.Model):
     firstname = models.CharField(max_length=30)
     lastname = models.CharField(max_length=30)
