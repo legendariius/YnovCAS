@@ -42,26 +42,26 @@ class TypeCard(models.Model):
         return self.name
 
 
-# class CharacterCard(Card):
-#     weakness = models.ForeignKey('Alcohol', on_delete=models.DO_NOTHING)
-#     strength = models.ForeignKey('Alcohol', on_delete=models.DO_NOTHING)
-#     maxAlcohol = models.FloatField()
-#
-#
-# class CharacterCardDescriptors(admin.ModelAdmin):
-#     list_display = ['name', 'weakness', 'strength', 'maxAlcohol', 'price']
-#     list_filter = ['name', 'weakness', 'strength', 'maxAlcohol', 'price']
-#     ordering = ['name']
-#
-#     fieldsets = ((
-#             'Card data',
-#             {'fields': ['name', 'text', 'imageSource', 'price']}
-#         ),
-#         (
-#             'Card effects',
-#             {'fields': ['weakness', 'strength', 'maxAlcohol']}
-#         )
-#     )
+class CharacterCard(Card):
+    weakness = models.ForeignKey('Alcohol', on_delete=models.DO_NOTHING, related_name='weakness')
+    strength = models.ForeignKey('Alcohol', on_delete=models.DO_NOTHING, related_name='strength')
+    maxAlcohol = models.FloatField()
+
+
+class CharacterCardDescriptors(admin.ModelAdmin):
+    list_display = ['name', 'weakness', 'strength', 'maxAlcohol', 'price']
+    list_filter = ['name', 'weakness', 'strength', 'maxAlcohol', 'price']
+    ordering = ['name']
+
+    fieldsets = ((
+            'Card data',
+            {'fields': ['name', 'text', 'imageSource', 'price']}
+        ),
+        (
+            'Card effects',
+            {'fields': ['weakness', 'strength', 'maxAlcohol']}
+        )
+    )
 
 
 class Alcohol(models.Model):
